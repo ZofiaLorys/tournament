@@ -1,0 +1,90 @@
+require: rubocop-rspec
+
+AllCops:
+  TargetRubyVersion: 2.5
+  Exclude:
+    - bin/*
+    - Rakefile
+    - config/**/*
+    - spec/spec_helper.rb
+    - db/**/*
+    - node_modules/**/*
+
+RSpec/NestedGroups:
+  Max: 4
+
+RSpec/ImplicitExpect:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Enabled: true
+  Max: 20
+
+RSpec/MultipleExpectations:
+  Exclude:
+    - spec/controllers/**/*
+    - spec/system/**/*
+    - spec/requests/**/*
+
+Metrics/ModuleLength:
+  Exclude:
+    - spec/**/*
+
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*
+
+Naming/MemoizedInstanceVariableName:
+  EnforcedStyleForLeadingUnderscores: required
+
+
+RSpec/FilePath:
+  Enabled: false
+  CustomTransform:
+    RuboCop: rubocop
+    RSpec: rspec
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+  SupportedStyles:
+    - single_quotes
+    - double_quotes
+  ConsistentQuotesInMultiline: true
+
+Style/StringLiteralsInInterpolation:
+  EnforcedStyle: double_quotes
+  SupportedStyles:
+    - single_quotes
+    - double_quotes
+
+RSpec/DescribedClass:
+  Enabled: false
+
+RSpec/ExampleWording:
+  Enabled: true
+
+Naming/FileName:
+  Enabled: false
+
+Style/TrailingCommaInArrayLiteral:
+  Enabled: false
+
+Style/TrailingCommaInHashLiteral:
+  Enabled: false
+
+TrailingCommaInArguments:
+  Enabled: false
+
+Documentation:
+  Enabled: false
+
+AsciiComments:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/IfUnlessModifier:
+  Enabled: false
+
+
