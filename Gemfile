@@ -18,6 +18,7 @@ gem "webpacker", "~> 4.0"
 
 group :development, :test do
   gem "byebug", platforms: %i[mri mingw x64_mingw]
+  gem 'rspec-rails', '~> 3.9.0'
 end
 
 group :development do
@@ -31,6 +32,7 @@ group :test do
   gem "capybara", ">= 2.15"
   gem "selenium-webdriver"
   gem "webdrivers"
+  gem 'shoulda-matchers'
 end
 
 gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
