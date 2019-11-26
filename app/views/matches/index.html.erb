@@ -1,0 +1,34 @@
+<% if @matches_group_a.empty?  %>
+  <%= render partial: 'form', locals: { group_name: "A"} %>
+<% end %>
+
+<% if @matches_group_b.empty?  %>
+  <%= render partial: 'form', locals: { group_name: "B"} %>
+<% end %>
+
+<% for matches_group in [@matches_group_a, @matches_group_b] do %>
+
+  <table>
+    <tr>
+      <td>Match ID</td>
+      <td>Group</td>
+      <td>Team1</td>
+      <td>Team2</td>
+    </tr>
+      <% for match in matches_group do %>
+      <% if match.team_matches.first %>
+
+        <tr>
+          <td> <%= match.id %></td>
+          <td> <%= match.teams.first.group_name %></td>
+          <td> <%= match.team_matches.first.team_id %></td>
+          <td> <%= match.team_matches.last.team_id  %> </td>
+        </tr>
+      <% end %>
+    <% end %>
+
+  </table>
+<% end %>
+
+<br>
+
