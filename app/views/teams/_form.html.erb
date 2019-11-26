@@ -1,5 +1,4 @@
-  <%= form_with(url: "/teams/create_multiple", method: "post") do %>
-    <%= hidden_field(:teams, :teams_amount, :value => "8") %>
-    <%= hidden_field(:teams, :group_name, :value => group_name) %>
-    <%= submit_tag("stwórz 8 teamów w grupie #{group_name}") %>
+  <%= form_with(scope: :teams, url: "/teams", method: "post") do |f| %>
+    <%= f.hidden_field(:group_name, :value => group_name) %>
+    <%= f.submit("Create 8 teams in a group #{group_name}") %>
   <% end %>

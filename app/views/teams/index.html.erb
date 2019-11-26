@@ -1,12 +1,12 @@
-<% if @teams_group_A.empty?  %>
+<% if @teams_group_a.empty?  %>
   <%= render partial: 'form', locals: { group_name: "A"} %>
 <% end %>
 
-<% if @teams_group_B.empty?  %>
+<% if @teams_group_b.empty?  %>
   <%= render partial: 'form', locals: { group_name: "B"} %>
 <% end %>
 
-<% for team_group in [@teams_group_A, @teams_group_B] do %>
+<% for team_group in [@teams_group_a, @teams_group_b] do %>
 <table>
   <tr>
     <td>Team name</td>

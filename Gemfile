@@ -19,7 +19,8 @@ gem "webpacker", "~> 4.0"
 
 group :development, :test do
   gem "byebug", platforms: %i[mri mingw x64_mingw]
-  gem "rspec-rails", "~> 3.9.0"
+  # https://github.com/rspec/rspec-rails/issues/2177
+  gem "rspec-rails", git: "https://github.com/rspec/rspec-rails", branch: "4-0-maintenance"
 end
 
 group :development do
