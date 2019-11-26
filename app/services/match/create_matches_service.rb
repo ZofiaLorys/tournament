@@ -18,7 +18,7 @@ class Match::CreateMatchesService
   private
 
   def team_pairing(teams_from_group)
-    teams_from_group.to_a.combination(2).each do |team1, team2|
+    teams_from_group.to_a.combination(2).to_a.each do |team1, team2|
       match = Match.create(phase: GROUP_PHASE)
       TeamMatch.create(match: match, team: team1)
       TeamMatch.create(match: match, team: team2)

@@ -1,4 +1,4 @@
-  <%= form_with(scope: :matches, url: "/matches", method: "post") do |f| %>
+  <%= form_with(scope: :matches, url: url, method: "post") do |f| %>
     <%= f.hidden_field(:group_name, :value => group_name) %>
-    <%= f.submit("Create tournament pairs for a group #{group_name}") %>
+    <%= f.submit(button_text+" "+group_name) %>
   <% end %>

@@ -19,6 +19,8 @@ gem "webpacker", "~> 4.0"
 
 group :development, :test do
   gem "byebug", platforms: %i[mri mingw x64_mingw]
+  gem "pry", "~> 0.12.2"
+  gem "factory_bot_rails"
   # https://github.com/rspec/rspec-rails/issues/2177
   gem "rspec-rails", git: "https://github.com/rspec/rspec-rails", branch: "4-0-maintenance"
 end
@@ -32,7 +34,7 @@ end
 
 group :test do
   gem "capybara", ">= 2.15"
-  gem "factory_bot_rails"
+  gem "database_cleaner", "~> 1.7"
   gem "selenium-webdriver"
   gem "shoulda-matchers"
   gem "webdrivers"

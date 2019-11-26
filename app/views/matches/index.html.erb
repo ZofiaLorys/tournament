@@ -1,10 +1,14 @@
 <% if @matches_group_a.empty?  %>
-  <%= render partial: 'form', locals: { group_name: "A"} %>
+  <%= render partial: 'form', locals: { group_name: "A", url: "/matches", button_text: "Create tournament pairs for a group"} %>
 <% end %>
 
 <% if @matches_group_b.empty?  %>
-  <%= render partial: 'form', locals: { group_name: "B"} %>
+  <%= render partial: 'form', locals: { group_name: "B", url: "/matches", button_text: "Create tournament pairs for a group"} %>
 <% end %>
+
+<%= render partial: 'form', locals: { group_name: "A", url: "/matches/update", button_text: "Generate scores for a group"} %>
+<%= render partial: 'form', locals: { group_name: "B", url: "/matches/update", button_text: "Generate scores for a group"} %>
+
 
 <% for matches_group in [@matches_group_a, @matches_group_b] do %>
 
@@ -14,6 +18,9 @@
       <td>Group</td>
       <td>Team1</td>
       <td>Team2</td>
+      <td>Team1 score</td>
+      <td>Team2 score</td>
+
     </tr>
       <% for match in matches_group do %>
       <% if match.team_matches.first %>
@@ -23,6 +30,8 @@
           <td> <%= match.teams.first.group_name %></td>
           <td> <%= match.team_matches.first.team_id %></td>
           <td> <%= match.team_matches.last.team_id  %> </td>
+          <td> <%= match.team_matches.first.score %></td>
+          <td> <%= match.team_matches.last.score  %> </td>
         </tr>
       <% end %>
     <% end %>
