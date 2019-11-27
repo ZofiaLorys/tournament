@@ -6,7 +6,7 @@ class Match::AssignScoreService
   end
 
   def initialize(params)
-    @params = params
+    @group_name = params["group_name"]
   end
 
   def call
@@ -25,6 +25,6 @@ class Match::AssignScoreService
   end
 
   def matches
-    Match.where(teams: { group_name: @params["group_name"] }).includes(:teams)
+    Match.where(teams: { group_name: @group_name }).includes(:teams)
   end
 end

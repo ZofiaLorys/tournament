@@ -1,4 +1,10 @@
   <%= form_with(scope: :matches, url: url, method: "post") do |f| %>
-    <%= f.hidden_field(:group_name, :value => group_name) %>
-    <%= f.submit(button_text+" "+group_name) %>
+    <% if defined?(group_name) %>
+      <%= f.hidden_field(:group_name, :value => group_name) %>
+    <% end %>
+    <% if defined?(rounds_left_playoff) %>
+      <%= f.hidden_field(:rounds_left_playoff, :value => rounds_left_playoff) %>
+    <% end %>
+    <%= f.hidden_field(:phase, :value => phase) %>
+    <%= f.submit(button_text) %>
   <% end %>

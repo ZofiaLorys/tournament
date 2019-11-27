@@ -1,13 +1,14 @@
 <% if @matches_group_a.empty?  %>
-  <%= render partial: 'form', locals: { group_name: "A", url: "/matches", button_text: "Create tournament pairs for a group"} %>
+  <%= render partial: 'form', locals: { group_name: "A", url: "/matches", button_text: "Create tournament pairs for a group A", phase: "groups"} %>
 <% end %>
 
 <% if @matches_group_b.empty?  %>
-  <%= render partial: 'form', locals: { group_name: "B", url: "/matches", button_text: "Create tournament pairs for a group"} %>
+  <%= render partial: 'form', locals: { group_name: "B", url: "/matches", button_text: "Create tournament pairs for a group B", phase: "groups"} %>
 <% end %>
 
-<%= render partial: 'form', locals: { group_name: "A", url: "/matches/update", button_text: "Generate scores for a group"} %>
-<%= render partial: 'form', locals: { group_name: "B", url: "/matches/update", button_text: "Generate scores for a group"} %>
+<%= render partial: 'form', locals: { group_name: "A", url: "/matches/update", button_text: "Generate scores for a group A", phase: "groups"} %>
+<%= render partial: 'form', locals: { group_name: "B", url: "/matches/update", button_text: "Generate scores for a group B", phase: "groups"} %>
+<%= render partial: 'form', locals: { url: "/matches", button_text: "Generate pairs for playoff", phase: "playoff", rounds_left_playoff: 2} %>
 
 
 <% for matches_group in [@matches_group_a, @matches_group_b] do %>
@@ -28,8 +29,8 @@
         <tr>
           <td> <%= match.id %></td>
           <td> <%= match.teams.first.group_name %></td>
-          <td> <%= match.team_matches.first.team_id %></td>
-          <td> <%= match.team_matches.last.team_id  %> </td>
+          <td> <%= match.team_matches.first.team.name %></td>
+          <td> <%= match.team_matches.last.team.name  %> </td>
           <td> <%= match.team_matches.first.score %></td>
           <td> <%= match.team_matches.last.score  %> </td>
         </tr>
@@ -37,7 +38,38 @@
     <% end %>
 
   </table>
+  <br>
 <% end %>
 
-<br>
 
+<% for matches_group in [@matches_playoff] do %>
+
+  <table>
+    <tr>
+      <td>Match ID</td>
+      <td>Team1</td>
+      <td>Group Team1</td>
+      <td>Team2</td>
+      <td>Group Team2</td>
+      <td>Team1 score</td>
+      <td>Team2 score</td>
+
+    </tr>
+      <% for match in matches_group do %>
+      <% if match.team_matches.first %>
+
+        <tr>
+          <td> <%= match.id %></td>
+          <td> <%= match.team_matches.first.team.name %></td>
+          <td> <%= match.teams.first.group_name %></td>
+          <td> <%= match.team_matches.last.team.name  %> </td>
+          <td> <%= match.teams.last.group_name %></td>
+          <td> <%= match.team_matches.first.score %></td>
+          <td> <%= match.team_matches.last.score  %> </td>
+        </tr>
+      <% end %>
+    <% end %>
+
+  </table>
+  <br>
+<% end %>

@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.describe MatchesController, type: :request do
   context "when POST #create" do
     let(:params) do
-      { matches: { group_name: "C" } }
+      { matches: { group_name: "C", phase: "groups" } }
     end
 
     8.times do

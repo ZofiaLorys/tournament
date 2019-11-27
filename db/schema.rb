@@ -14,7 +14,7 @@ ActiveRecord::Schema.define(version: 2019_11_21_114428) do
 
   create_table "matches", force: :cascade do |t|
     t.string "phase"
-    t.integer "rounds_left_play_off"
+    t.integer "rounds_left_playoff"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

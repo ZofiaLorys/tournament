@@ -15,11 +15,10 @@ FactoryBot.define do
     association :match
   end
 
-  # factory :match do
-  #   match.reload!
-  #   after :create do |match|
-  #     create :team_match, match: :match 
-  #   end
-  # end
-
+  #  factory :match do
+  #    after :create do |match|
+  #      # create :team_match, match: :match
+  #      create_list :team_match, 2, match: match, team: create(:team)
+  #    end
+  #  end
 end

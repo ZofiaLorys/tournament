@@ -6,10 +6,11 @@ class MatchesController < ApplicationController
   def index
     @matches_group_a = Match.where(teams: { group_name: "A" }).includes(:teams)
     @matches_group_b = Match.where(teams: { group_name: "B" }).includes(:teams)
+    @matches_playoff = Match.where(phase: "playoff")
   end
 
   def create
-    Match::CreateMatchesService.call(matches_params[:group_name])
+    Match::CreateMatchesService.call(matches_params)
     redirect_to action: "index"
   end
 
@@ -19,6 +20,6 @@ class MatchesController < ApplicationController
   end
 
   def matches_params
-    params.require(:matches).permit(:group_name)
+    params.require(:matches).permit(:group_name, :phase, :rounds_left_playoff)
   end
 end

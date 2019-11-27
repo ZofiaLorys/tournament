@@ -2,30 +2,34 @@
 
 class Match::CreateMatchesService
   GROUP_PHASE = "groups"
+  PLAYOFF_PHASE = "playoff"
+  AMOUNT_OF_PLAYOFF_ROUNDS = "2"
 
   def self.call(*args)
     new(*args).call
   end
 
-  def initialize(group_name)
-    @group_name = group_name
+  def initialize(params)
+    @group_name = params["group_name"]
+    @phase = params["phase"]
+    @rounds_left_playoff = params["rounds_left_playoff"]
   end
 
   def call
-    team_pairing(teams_from_group)
+    if @phase == GROUP_PHASE
+      Match::GroupsPhasePairingService.call(@group_name)
+    elsif @phase == PLAYOFF_PHASE && @rounds_left_playoff == AMOUNT_OF_PLAYOFF_ROUNDS
+      Match::PlayoffFirstRoundPairingService.call(@rounds_left_playoff)
+    end
   end
 
   private
 
-  def team_pairing(teams_from_group)
-    teams_from_group.to_a.combination(2).to_a.each do |team1, team2|
-      match = Match.create(phase: GROUP_PHASE)
-      TeamMatch.create(match: match, team: team1)
-      TeamMatch.create(match: match, team: team2)
+  def team_pairing
+    if @phase == GROUP_PHASE
+      Match::GroupsPhasePairingService.call(@group_name)
+    elsif @phase == PLAYOFF_PHASE
+      Match::PlayoffFirstRoundPairingService.call(@rounds_left_playoff)
     end
-  end
-
-  def teams_from_group
-    Team.where(group_name: @group_name)
   end
 end
