@@ -3,7 +3,7 @@
 class Match::CreateMatchesService
   GROUP_PHASE = "groups"
   PLAYOFF_PHASE = "playoff"
-  AMOUNT_OF_PLAYOFF_ROUNDS = "2"
+  AMOUNT_OF_PLAYOFF_ROUNDS = "3"
 
   def self.call(*args)
     new(*args).call
@@ -16,21 +16,26 @@ class Match::CreateMatchesService
   end
 
   def call
-    if @phase == GROUP_PHASE
+    if in_groups_phase
       Match::GroupsPhasePairingService.call(@group_name)
-    elsif @phase == PLAYOFF_PHASE && @rounds_left_playoff == AMOUNT_OF_PLAYOFF_ROUNDS
+    elsif in_first_playoff_round
       Match::PlayoffFirstRoundPairingService.call(@rounds_left_playoff)
-
+    elsif in_playoff_round
+      Match::PlayoffPairingService.call(@rounds_left_playoff)
     end
   end
 
   private
 
-  def team_pairing
-    if @phase == GROUP_PHASE
-      Match::GroupsPhasePairingService.call(@group_name)
-    elsif @phase == PLAYOFF_PHASE
-      Match::PlayoffFirstRoundPairingService.call(@rounds_left_playoff)
-    end
+  def in_groups_phase
+    @phase == GROUP_PHASE
+  end
+
+  def in_first_playoff_round
+    @phase == PLAYOFF_PHASE && @rounds_left_playoff == AMOUNT_OF_PLAYOFF_ROUNDS
+  end
+
+  def in_playoff_round
+    @phase == PLAYOFF_PHASE && @rounds_left_playoff != AMOUNT_OF_PLAYOFF_ROUNDS
   end
 end

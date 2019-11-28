@@ -8,8 +8,12 @@
 
 <%= render partial: 'form', locals: { group_name: "A", url: "/matches/update", button_text: "Generate scores for a group A", phase: "groups"} %>
 <%= render partial: 'form', locals: { group_name: "B", url: "/matches/update", button_text: "Generate scores for a group B", phase: "groups"} %>
-<%= render partial: 'form', locals: { url: "/matches", button_text: "Generate pairs for playoff", phase: "playoff", rounds_left_playoff: 2} %>
-<%= render partial: 'form', locals: { url: "/matches/update", button_text: "Generate scores for playoff", phase: "playoff", rounds_left_playoff: 2} %>
+<%= render partial: 'form', locals: { url: "/matches", button_text: "Pairs for playoff", phase: "playoff", rounds_left_playoff: 3} %>
+<%= render partial: 'form', locals: { url: "/matches/update", button_text: "Generate scores for playoff", phase: "playoff", rounds_left_playoff: 3} %>
+<%= render partial: 'form', locals: { url: "/matches", button_text: "Pairs for playoff semifinal", phase: "playoff", rounds_left_playoff: 2} %>
+<%= render partial: 'form', locals: { url: "/matches/update", button_text: "scores for playoff semifinal", phase: "playoff", rounds_left_playoff: 2} %>
+<%= render partial: 'form', locals: { url: "/matches", button_text: "Pairs for playoff final", phase: "playoff", rounds_left_playoff: 1} %>
+<%= render partial: 'form', locals: { url: "/matches/update", button_text: "scores for playoff final", phase: "playoff", rounds_left_playoff: 1} %>
 
 
 <% for matches_group in [@matches_group_a, @matches_group_b] do %>
@@ -43,7 +47,7 @@
 <% end %>
 
 
-<% for matches_group in [@matches_playoff_first_round] do %>
+<% for matches_group in [@matches_playoff_first_round, @matches_playoff_semifinal, @matches_playoff_final] do %>
 
   <table>
     <tr>
@@ -74,3 +78,11 @@
   </table>
   <br>
 <% end %>
+
+<style>
+table, th, td {
+  border: 0.5px solid #00000040;
+  border-collapse: collapse;
+  text-align: center;
+}
+</style>

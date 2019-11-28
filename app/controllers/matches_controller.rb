@@ -6,7 +6,9 @@ class MatchesController < ApplicationController
   def index
     @matches_group_a = Match.where(teams: { group_name: "A" }).includes(:teams)
     @matches_group_b = Match.where(teams: { group_name: "B" }).includes(:teams)
-    @matches_playoff_first_round = Match.where(phase: "playoff", rounds_left_playoff: "2")
+    @matches_playoff_first_round = Match.where(phase: "playoff", rounds_left_playoff: "3")
+    @matches_playoff_semifinal = Match.where(phase: "playoff", rounds_left_playoff: "2")
+    @matches_playoff_final = Match.where(phase: "playoff", rounds_left_playoff: "1")
   end
 
   def create

@@ -3,7 +3,7 @@
 class Match::AssignScoreService
   GROUP_PHASE = "groups"
   PLAYOFF_PHASE = "playoff"
-  AMOUNT_OF_PLAYOFF_ROUNDS = "2"
+  AMOUNT_OF_PLAYOFF_ROUNDS = "3"
 
   def self.call(*args)
     new(*args).call
@@ -18,8 +18,8 @@ class Match::AssignScoreService
   def call
     if in_groups_phase
       generate_scores(matches_in_groups_phase)
-    elsif in_first_playoff_round
-      generate_scores(matches_in_playoff_first_round)
+    elsif in_playoff_phase
+      generate_scores(matches_in_playoff_phase)
     end
   end
 
@@ -29,8 +29,8 @@ class Match::AssignScoreService
     Match.where(teams: { group_name: @group_name }).includes(:teams)
   end
 
-  def matches_in_playoff_first_round
-    Match.where(phase: "playoff", rounds_left_playoff: "2")
+  def matches_in_playoff_phase
+    Match.where(phase: "playoff", rounds_left_playoff: @rounds_left_playoff)
   end
 
   def generate_scores(matches)
@@ -53,7 +53,7 @@ class Match::AssignScoreService
     @phase == GROUP_PHASE
   end
 
-  def in_first_playoff_round
-    @phase == PLAYOFF_PHASE && @rounds_left_playoff == AMOUNT_OF_PLAYOFF_ROUNDS
+  def in_playoff_phase
+    @phase == PLAYOFF_PHASE
   end
 end
