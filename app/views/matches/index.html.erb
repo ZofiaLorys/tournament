@@ -9,6 +9,7 @@
 <%= render partial: 'form', locals: { group_name: "A", url: "/matches/update", button_text: "Generate scores for a group A", phase: "groups"} %>
 <%= render partial: 'form', locals: { group_name: "B", url: "/matches/update", button_text: "Generate scores for a group B", phase: "groups"} %>
 <%= render partial: 'form', locals: { url: "/matches", button_text: "Generate pairs for playoff", phase: "playoff", rounds_left_playoff: 2} %>
+<%= render partial: 'form', locals: { url: "/matches/update", button_text: "Generate scores for playoff", phase: "playoff", rounds_left_playoff: 2} %>
 
 
 <% for matches_group in [@matches_group_a, @matches_group_b] do %>
@@ -42,7 +43,7 @@
 <% end %>
 
 
-<% for matches_group in [@matches_playoff] do %>
+<% for matches_group in [@matches_playoff_first_round] do %>
 
   <table>
     <tr>

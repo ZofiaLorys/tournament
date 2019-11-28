@@ -17,7 +17,7 @@ class Match::PlayoffFirstRoundPairingService
     playoff_pairs.each do |team1_id, team2_id|
       team1 = Team.find(team1_id)
       team2 = Team.find(team2_id)
-      Match.create_single_match(team1, team2, GROUP_PHASE)
+      Match.create_single_match(team1, team2, GROUP_PHASE, @rounds_left_playoff)
     end
   end
 
@@ -32,7 +32,7 @@ class Match::PlayoffFirstRoundPairingService
 
   def best_scores_in_a_group(group_name, _amount)
     TeamMatch.where(teams: { group_name: group_name }).group(:team_id).joins(:team).order(sum_score: :desc)
-    .limit(4).sum(:score).keys
+             .limit(4).sum(:score).keys
   end
 
   def amount_of_matches

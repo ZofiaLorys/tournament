@@ -20,6 +20,7 @@ class Match::CreateMatchesService
       Match::GroupsPhasePairingService.call(@group_name)
     elsif @phase == PLAYOFF_PHASE && @rounds_left_playoff == AMOUNT_OF_PLAYOFF_ROUNDS
       Match::PlayoffFirstRoundPairingService.call(@rounds_left_playoff)
+
     end
   end
 

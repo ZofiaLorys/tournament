@@ -6,9 +6,9 @@ FactoryBot.define do
     group_name { "C" }
   end
 
-   factory :match do
-     phase { "grupowa" }
-   end
+  factory :match do
+    phase { "grupowa" }
+  end
 
   factory :team_match do
     association :team
