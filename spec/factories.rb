@@ -8,17 +8,15 @@ FactoryBot.define do
 
   factory :match do
     phase { "grupowa" }
+    trait :with_teams do
+      after :create do |match|
+        create_list :team_match, 2, match: match
+      end
+    end
   end
 
   factory :team_match do
     association :team
     association :match
   end
-
-  #  factory :match do
-  #    after :create do |match|
-  #      # create :team_match, match: :match
-  #      create_list :team_match, 2, match: match, team: create(:team)
-  #    end
-  #  end
 end
