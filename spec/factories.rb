@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :team do
-    name { "test-team" }
+    name { Faker::Team.name }
     group_name { "C" }
   end
 

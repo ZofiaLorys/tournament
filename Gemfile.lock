@@ -260,7 +260,7 @@ DEPENDENCIES
   bootsnap (>= 1.4.2)
   byebug
   capybara (>= 2.15)
-  database_cleaner (~> 1.7)
+  database_cleaner
   factory_bot_rails
   faker (~> 2.7)
   jbuilder (~> 2.7)

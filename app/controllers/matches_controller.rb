@@ -4,6 +4,7 @@ class MatchesController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def index
+    @teams_exists = Team.where(group_name: "A").any? && Team.where(group_name: "B").any?
     @matches_group_a = Match.where(teams: { group_name: "A" }).includes(:teams)
     @matches_group_b = Match.where(teams: { group_name: "B" }).includes(:teams)
     @matches_playoff_first_round = Match.where(phase: "playoff", rounds_left_playoff: "3")
@@ -12,13 +13,21 @@ class MatchesController < ApplicationController
   end
 
   def create
-    Match::CreateMatchesService.call(matches_params)
+    if Match::CreateMatchesService.call(matches_params).present?
+      flash[:success] = "You have created matches "
+    else
+      flash[:error] = "something went wrong"
+    end
     redirect_to action: "index"
   end
 
   def update
-    Match::AssignScoreService.call(matches_params)
-    redirect_to action: "index"
+    if Match::AssignScoreService.call(matches_params).present?
+      flash[:success] = "You have updated scores"
+      redirect_to action: "index"
+    else
+      flash[:error] = "something went wrong"
+    end
   end
 
   def matches_params

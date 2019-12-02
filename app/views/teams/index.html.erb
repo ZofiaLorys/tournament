@@ -1,3 +1,4 @@
+
 <% if @teams_group_a.empty?  %>
   <%= render partial: 'form', locals: { group_name: "A"} %>
 <% end %>
@@ -9,8 +10,8 @@
 <% for team_group in [@teams_group_a, @teams_group_b] do %>
 <table>
   <tr>
-    <td>Team name</td>
-    <td>Group name</td>
+    <th>Team name</td>
+    <th>Group name</td>
   </tr>
   <% team_group.each do |team| %>
     <tr>

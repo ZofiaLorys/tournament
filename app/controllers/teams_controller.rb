@@ -10,6 +10,7 @@ class TeamsController < ApplicationController
 
   def create
     Team::CreateMultipleService.call(teams_params[:group_name])
+    flash[:success] = "You have created 8 teams from group #{teams_params[:group_name]}"
     redirect_to action: "index"
   end
 

@@ -24,8 +24,8 @@ RSpec/ExampleLength:
 RSpec/MultipleExpectations:
   Exclude:
     - spec/controllers/**/*
-    - spec/system/**/*
     - spec/requests/**/*
+    - spec/features/**/*
 
 Metrics/ModuleLength:
   Exclude:
