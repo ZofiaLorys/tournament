@@ -5,11 +5,12 @@ class MatchesController < ApplicationController
 
   def index
     @teams_exists = Team.where(group_name: "A").any? && Team.where(group_name: "B").any?
-    @matches_group_a = Match.where(teams: { group_name: "A" }).includes(:teams)
-    @matches_group_b = Match.where(teams: { group_name: "B" }).includes(:teams)
+    @matches_group_a = Match.where(teams: { group_name: "A" }).includes(:teams, :team_matches)
+    @matches_group_b = Match.where(teams: { group_name: "B" }).includes(:teams, :team_matches)
     @matches_playoff_first_round = Match.where(phase: "playoff", rounds_left_playoff: "3")
     @matches_playoff_semifinal = Match.where(phase: "playoff", rounds_left_playoff: "2")
     @matches_playoff_final = Match.where(phase: "playoff", rounds_left_playoff: "1")
+    @current_phase = Match::CurrentPhaseService.call
   end
 
   def create
@@ -29,6 +30,8 @@ class MatchesController < ApplicationController
       flash[:error] = "something went wrong"
     end
   end
+
+  private
 
   def matches_params
     params.require(:matches).permit(:group_name, :phase, :rounds_left_playoff)

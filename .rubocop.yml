@@ -10,6 +10,7 @@ AllCops:
     - spec/rails_helper.rb
     - db/**/*
     - node_modules/**/*
+    - app/services/match/current_phase_service.rb
 
 RSpec/NestedGroups:
   Max: 4

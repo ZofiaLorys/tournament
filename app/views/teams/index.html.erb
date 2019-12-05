@@ -6,6 +6,9 @@
 <% if @teams_group_b.empty?  %>
   <%= render partial: 'form', locals: { group_name: "B"} %>
 <% end %>
+<% if @teams_group_a.present? && @teams_group_b.present?  %>
+  <%= link_to "Tournament matches", matches_path %>
+<% end %>
 
 <% for team_group in [@teams_group_a, @teams_group_b] do %>
 <table>

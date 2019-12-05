@@ -1,19 +1,27 @@
-<% if @matches_group_a.empty? && @teams_exists  %>
-  <%= render partial: 'form', locals: { group_name: "A", url: "/matches", button_text: "Create tournament pairs for a group A", phase: "groups"} %>
-<% end %>
+  <%case @current_phase %>
+    <%when "matches_for_group_A"%>
+      <%= render partial: 'form', locals: { group_name: "A", url: "/matches", button_text: "Create tournament pairs for a group A", phase: "groups"} %>
+    <%when "matches_for_group_B"%>
+      <%= render partial: 'form', locals: { group_name: "B", url: "/matches", button_text: "Create tournament pairs for a group B", phase: "groups"} %>
+    <%when "scores_generating_for_group_A"%>
+      <%= render partial: 'form', locals: { group_name: "A", url: "/matches/update", button_text: "Generate scores for a group A", phase: "groups"} %>
+    <%when "scores_generating_for_group_B"%>
+      <%= render partial: 'form', locals: { group_name: "B", url: "/matches/update", button_text: "Generate scores for a group B", phase: "groups"} %>
+    <%when "matches_for_playoff"%>
+     <%= render partial: 'form', locals: { url: "/matches", button_text: "Pairs for playoff", phase: "playoff", rounds_left_playoff: 3} %>
+    <%when "scores_for_playoff"%>
+      <%= render partial: 'form', locals: { url: "/matches/update", button_text: "Generate scores for playoff", phase: "playoff", rounds_left_playoff: 3} %>
+    <%when "matches_for_playoff_semifinal"%>
+      <%= render partial: 'form', locals: { url: "/matches", button_text: "Pairs for playoff semifinal", phase: "playoff", rounds_left_playoff: 2} %>
+    <%when "scores_for_playoff_semifinal"%>
+      <%= render partial: 'form', locals: { url: "/matches/update", button_text: "scores for playoff semifinal", phase: "playoff", rounds_left_playoff: 2} %>
+    <%when "pairs_for_playoff_final"%>
+      <%= render partial: 'form', locals: { url: "/matches", button_text: "Pairs for playoff final", phase: "playoff", rounds_left_playoff: 1} %>
+    <%when "scores_for_playoff_final"%>
+       <%= render partial: 'form', locals: { url: "/matches/update", button_text: "scores for playoff final", phase: "playoff", rounds_left_playoff: 1} %>
+  <%end%>
 
-<% if @matches_group_b.empty? && @teams_exists  %>
-  <%= render partial: 'form', locals: { group_name: "B", url: "/matches", button_text: "Create tournament pairs for a group B", phase: "groups"} %>
-<% end %>
-
-<%= render partial: 'form', locals: { group_name: "A", url: "/matches/update", button_text: "Generate scores for a group A", phase: "groups"} %>
-<%= render partial: 'form', locals: { group_name: "B", url: "/matches/update", button_text: "Generate scores for a group B", phase: "groups"} %>
-<%= render partial: 'form', locals: { url: "/matches", button_text: "Pairs for playoff", phase: "playoff", rounds_left_playoff: 3} %>
-<%= render partial: 'form', locals: { url: "/matches/update", button_text: "Generate scores for playoff", phase: "playoff", rounds_left_playoff: 3} %>
-<%= render partial: 'form', locals: { url: "/matches", button_text: "Pairs for playoff semifinal", phase: "playoff", rounds_left_playoff: 2} %>
-<%= render partial: 'form', locals: { url: "/matches/update", button_text: "scores for playoff semifinal", phase: "playoff", rounds_left_playoff: 2} %>
-<%= render partial: 'form', locals: { url: "/matches", button_text: "Pairs for playoff final", phase: "playoff", rounds_left_playoff: 1} %>
-<%= render partial: 'form', locals: { url: "/matches/update", button_text: "scores for playoff final", phase: "playoff", rounds_left_playoff: 1} %>
+ 
 
 
 <% for matches_group in [@matches_group_a, @matches_group_b] do %>
