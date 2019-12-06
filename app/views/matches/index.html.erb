@@ -40,12 +40,12 @@
       <% if match.team_matches.first %>
 
         <tr>
-          <td> <%= match.id %></td>
-          <td> <%= match.teams.first.group_name %></td>
-          <td> <%= match.team_matches.first.team.name %></td>
-          <td> <%= match.team_matches.last.team.name  %> </td>
-          <td> <%= match.team_matches.first.score %></td>
-          <td> <%= match.team_matches.last.score  %> </td>
+          <td><%= match.id %></td>
+          <td><%= match.teams.first.group_name %></td>
+          <td><%= match.team_matches.first.team.name %></td>
+          <td><%= match.team_matches.last.team.name  %> </td>
+          <td><%= match.team_matches.first.score %></td>
+          <td><%= match.team_matches.last.score  %> </td>
         </tr>
       <% end %>
     <% end %>
@@ -72,13 +72,13 @@
       <% if match.team_matches.first %>
 
         <tr>
-          <td> <%= match.id %></td>
-          <td> <%= match.team_matches.first.team.name %></td>
-          <td> <%= match.teams.first.group_name %></td>
-          <td> <%= match.team_matches.last.team.name  %> </td>
-          <td> <%= match.teams.last.group_name %></td>
-          <td> <%= match.team_matches.first.score %></td>
-          <td> <%= match.team_matches.last.score  %> </td>
+          <td><%= match.id %></td>
+          <td><%= match.team_matches.first.team.name %></td>
+          <td><%= match.team_matches.first.team.group_name %></td>
+          <td><%= match.team_matches.last.team.name  %> </td>
+          <td><%= match.team_matches.last.team.group_name %></td>
+          <td><%= match.team_matches.first.score %></td>
+          <td><%= match.team_matches.last.score  %> </td>
         </tr>
       <% end %>
     <% end %>

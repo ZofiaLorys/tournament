@@ -5,8 +5,8 @@ class MatchesController < ApplicationController
 
   def index
     @teams_exists = Team.where(group_name: "A").any? && Team.where(group_name: "B").any?
-    @matches_group_a = Match.where(teams: { group_name: "A" }).includes(:teams, :team_matches)
-    @matches_group_b = Match.where(teams: { group_name: "B" }).includes(:teams, :team_matches)
+    @matches_group_a = Match.where(teams: { group_name: "A" }, phase: "groups").includes(:teams)
+    @matches_group_b = Match.where(teams: { group_name: "B" }, phase: "groups").includes(:teams)
     @matches_playoff_first_round = Match.where(phase: "playoff", rounds_left_playoff: "3")
     @matches_playoff_semifinal = Match.where(phase: "playoff", rounds_left_playoff: "2")
     @matches_playoff_final = Match.where(phase: "playoff", rounds_left_playoff: "1")
