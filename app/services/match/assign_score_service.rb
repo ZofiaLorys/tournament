@@ -26,7 +26,7 @@ class Match::AssignScoreService
   private
 
   def matches_in_groups_phase
-    Match.where(teams: { group_name: @group_name }).includes(:teams)
+    Match.where(phase: "groups", teams: { group_name: @group_name }).includes(:teams)
   end
 
   def matches_in_playoff_phase

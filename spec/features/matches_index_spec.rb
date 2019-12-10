@@ -47,7 +47,7 @@ RSpec.describe "Matches index page", type: :feature do
     it "User creates new matches for group B" do
       visit matches_path
       expect(page).to have_button.once
-     click_button "Create tournament pairs for a group B"
+      click_button "Create tournament pairs for a group B"
 
       expect(page).to have_text("You have created matches")
       expect(page).to have_css "table td"
@@ -76,6 +76,7 @@ RSpec.describe "Matches index page", type: :feature do
     it "User generates scores for groups phase matches for group A" do
       visit matches_path
       expect(Match.where(teams: { group_name: "A" }).includes(:teams).count).to eq 28
+      expect(TeamMatch.where(teams: { group_name: "A" }).includes(:team).count).to eq 56
       expect(page).to have_button.once
       click_button "Generate scores for a group A"
       match = Match.where(teams: { group_name: "A" }).joins(:team_matches, :teams).first
@@ -105,6 +106,7 @@ RSpec.describe "Matches index page", type: :feature do
         TeamMatch.where(match: match).last.update(score: score[1])
       end
     end
+
     it "User generates scores for groups phase matches for group B" do
       visit matches_path
       expect(Match.where(teams: { group_name: "B" }).includes(:teams).count).to eq 28
@@ -137,53 +139,58 @@ RSpec.describe "Matches index page", type: :feature do
         TeamMatch.where(match: match).last.update(score: score[1])
       end
     end
+
     it "User creates pairs for playoff" do
       visit matches_path
       expect(page).to have_button.once
       click_button "Pairs for playoff"
-      expect(page).to  have_xpath("/html/body/table[3]")
-      best_team_group_a_id = TeamMatch.where(teams: { group_name: "A" }).group(:team_id).joins(:team).order(sum_score: :desc).limit(1).sum(:score).keys[0]
+      expect(page).to have_xpath("/html/body/table[3]")
+      best_team_group_a_id = TeamMatch.where(teams: { group_name: "A" })
+                                      .group(:team_id).joins(:team).order(sum_score: :desc).limit(1).sum(:score).keys[0]
       best_team_group_a = Team.find(best_team_group_a_id).name
-      forth_team_group_b_id = TeamMatch.where(teams: { group_name: "B" }).group(:team_id).joins(:team).order(sum_score: :desc).limit(4).sum(:score).keys[3]
+      forth_team_group_b_id = TeamMatch.where(teams: { group_name: "B" })
+                                       .group(:team_id).joins(:team).order(sum_score: :desc).limit(4).sum(:score)
+                                       .keys[3]
       forth_team_group_b = Team.find(forth_team_group_b_id).name
       td_team_name = page.find(:xpath, "/html/body/table[3]/tbody/tr[td[2]/text()='#{best_team_group_a}']/td[4]")
       expect(td_team_name).to have_text(forth_team_group_b)
       expect(page).not_to have_button("Pairs for playoff")
     end
   end
+
   context "when pair for first playoff round are created" do
     before do
-      4.times do
-        FactoryBot.create(:match, :with_teams, phase: "playoff", rounds_left_playoff: 3)
-      end
+      FactoryBot.create_list(:match, 4, :with_teams, phase: "playoff", rounds_left_playoff: 3)
     end
+
     it "User generate scores for first playoff round" do
       visit matches_path
       expect(page).to have_button.once
       click_button "Generate scores for playoff"
-       expect(page).to  have_xpath("/html/body/table[3]")
-       td_with_win_score = page.find(:xpath, "/html/body/table[3]/tbody/tr[td[6]/text()='0']/td[7]", match: :first)
-       expect(td_with_win_score).to have_text('3')
-       expect(page).not_to have_button("Generate scores for playoff")
+      expect(page).to have_xpath("/html/body/table[3]")
+      tr_with_win_score = page.find(:xpath, "/html/body/table[3]/tbody/tr[td/text()='0']", match: :first)
+      expect(tr_with_win_score).to have_text("3")
+      expect(page).not_to have_button("Generate scores for playoff")
     end
   end
-  context "after first playoff round" do
+
+  context "when after first playoff round" do
     before do
-      4.times do
-        FactoryBot.create(:match, :with_teams, phase: "playoff", rounds_left_playoff: 3)
-      end
+      FactoryBot.create_list(:match, 2, :with_teams, phase: "playoff", rounds_left_playoff: 3)
       Match.where(phase: "playoff", rounds_left_playoff: 3).each do |match|
         score = [[3, 0], [0, 3]].sample
         TeamMatch.where(match: match).first.update(score: score[0])
         TeamMatch.where(match: match).last.update(score: score[1])
       end
     end
+
     it "User wants to see semifinal pairs" do
       visit matches_path
       expect(page).to have_button.once
       click_button "Pairs for playoff semifinal"
-      expect(page).to  have_xpath("/html/body/table[4]")
-      winners = TeamMatch.where(team_matches: { score: 3 }, matches: {phase: "playoff", rounds_left_playoff: 3}).group(:team_id).joins(:team, :match).order(sum_score: :desc).limit(4).sum(:score).keys
+      expect(page).to have_xpath("/html/body/table[4]")
+      winners = TeamMatch.where(team_matches: { score: 3 }, matches: { phase: "playoff", rounds_left_playoff: 3 })
+                         .group(:team_id).joins(:team, :match).order(sum_score: :desc).limit(4).sum(:score).keys
       table = page.find(:xpath, "/html/body/table[4]")
       winners.each do |winner_id|
         winner = Team.find(winner_id)
@@ -193,4 +200,61 @@ RSpec.describe "Matches index page", type: :feature do
     end
   end
 
+  context "when pairs for semifinal playoff round are created" do
+    before do
+      FactoryBot.create_list(:match, 2, :with_teams, phase: "playoff", rounds_left_playoff: 2)
+    end
+
+    it "User generate scores for playoff semifinal round" do
+      visit matches_path
+      expect(page).to have_button.once
+      click_button "Generate scores for playoff semifinal"
+      expect(page).to have_xpath("/html/body/table[4]")
+      tr_with_win_score = page.find(:xpath, "/html/body/table[4]/tbody/tr[td/text()='0']", match: :first)
+      expect(tr_with_win_score).to have_text("3")
+      expect(page).not_to have_button("Generate scores for playoff semifinal")
+    end
+  end
+
+  context "when after semifinal round" do
+    before do
+      FactoryBot.create(:match, :with_teams, phase: "playoff", rounds_left_playoff: 2)
+      Match.where(phase: "playoff", rounds_left_playoff: 2).each do |match|
+        score = [[3, 0], [0, 3]].sample
+        TeamMatch.where(match: match).first.update(score: score[0])
+        TeamMatch.where(match: match).last.update(score: score[1])
+      end
+    end
+
+    it "User wants to see final pairs" do
+      visit matches_path
+      expect(page).to have_button.once
+      click_button "Pairs for playoff final"
+      expect(page).to have_xpath("/html/body/table[5]")
+      winners = TeamMatch.where(team_matches: { score: 3 }, matches: { phase: "playoff", rounds_left_playoff: 2 })
+                         .group(:team_id).joins(:team, :match).order(sum_score: :desc).limit(2).sum(:score).keys
+      table = page.find(:xpath, "/html/body/table[5]")
+      winners.each do |winner_id|
+        winner = Team.find(winner_id)
+        expect(table).to have_text(winner.name)
+      end
+      expect(page).not_to have_button("Pairs for playoff final")
+    end
+  end
+
+  context "when pairs for final playoff round are created" do
+    before do
+      FactoryBot.create(:match, :with_teams, phase: "playoff", rounds_left_playoff: 1)
+    end
+
+    it "User generate scores for playoff semifinal round" do
+      visit matches_path
+      expect(page).to have_button.once
+      click_button "Generate scores for playoff final"
+      expect(page).to have_xpath("/html/body/table[5]")
+      tr_with_win_score = page.find(:xpath, "/html/body/table[5]/tbody/tr[td/text()='0']", match: :first)
+      expect(tr_with_win_score).to have_text("3")
+      expect(page).not_to have_button("Generate scores for playoff final")
+    end
+  end
 end

@@ -14,11 +14,11 @@
     <%when "matches_for_playoff_semifinal"%>
       <%= render partial: 'form', locals: { url: "/matches", button_text: "Pairs for playoff semifinal", phase: "playoff", rounds_left_playoff: 2} %>
     <%when "scores_for_playoff_semifinal"%>
-      <%= render partial: 'form', locals: { url: "/matches/update", button_text: "scores for playoff semifinal", phase: "playoff", rounds_left_playoff: 2} %>
+      <%= render partial: 'form', locals: { url: "/matches/update", button_text: "Generate scores for playoff semifinal", phase: "playoff", rounds_left_playoff: 2} %>
     <%when "pairs_for_playoff_final"%>
       <%= render partial: 'form', locals: { url: "/matches", button_text: "Pairs for playoff final", phase: "playoff", rounds_left_playoff: 1} %>
     <%when "scores_for_playoff_final"%>
-       <%= render partial: 'form', locals: { url: "/matches/update", button_text: "scores for playoff final", phase: "playoff", rounds_left_playoff: 1} %>
+       <%= render partial: 'form', locals: { url: "/matches/update", button_text: "Generate scores for playoff final", phase: "playoff", rounds_left_playoff: 1} %>
   <%end%>
 
  

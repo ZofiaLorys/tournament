@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Match::PlayoffPairingService
-  GROUP_PHASE = "playoff"
+  PLAYOFF_PHASE = "playoff"
 
   def self.call(*args)
     new(*args).call
@@ -13,7 +13,7 @@ class Match::PlayoffPairingService
 
   def call
     winners.to_a.each_slice(2).to_a.each do |team1, team2|
-      Match.create_single_match(team1, team2, GROUP_PHASE, @rounds_left_playoff)
+      Match.create_single_match(team1, team2, PLAYOFF_PHASE, @rounds_left_playoff)
     end
   end
 

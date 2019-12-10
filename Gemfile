@@ -22,6 +22,8 @@ group :development, :test do
   gem "factory_bot_rails"
   gem "pry", "~> 0.12.2"
   # https://github.com/rspec/rspec-rails/issues/2177
+  gem "pry-rescue"
+  gem "pry-stack_explorer"
   gem "rspec-rails", git: "https://github.com/rspec/rspec-rails", branch: "4-0-maintenance"
 end
 
