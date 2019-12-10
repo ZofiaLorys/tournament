@@ -153,21 +153,6 @@ RSpec.describe "Matches index page", type: :feature do
   end
   context "when pair for first playoff round are created" do
     before do
-      8.times do
-        FactoryBot.create(:team, group_name: "A")
-        FactoryBot.create(:team, group_name: "B")
-      end
-      Team.where(group_name: "A").to_a.combination(2).to_a.each do |team1, team2|
-        Match.create_single_match(team1, team2, "groups")
-      end
-      Team.where(group_name: "B").to_a.combination(2).to_a.each do |team1, team2|
-        Match.create_single_match(team1, team2, "groups")
-      end
-      Match.where(phase: "groups").each do |match|
-        score = [[3, 0], [0, 3], [1, 1]].sample
-        TeamMatch.where(match: match).first.update(score: score[0])
-        TeamMatch.where(match: match).last.update(score: score[1])
-      end
       4.times do
         FactoryBot.create(:match, :with_teams, phase: "playoff", rounds_left_playoff: 3)
       end
@@ -184,21 +169,6 @@ RSpec.describe "Matches index page", type: :feature do
   end
   context "after first playoff round" do
     before do
-      8.times do
-        FactoryBot.create(:team, group_name: "A")
-        FactoryBot.create(:team, group_name: "B")
-      end
-      Team.where(group_name: "A").to_a.combination(2).to_a.each do |team1, team2|
-        Match.create_single_match(team1, team2, "groups")
-      end
-      Team.where(group_name: "B").to_a.combination(2).to_a.each do |team1, team2|
-        Match.create_single_match(team1, team2, "groups")
-      end
-      Match.where(phase: "groups").each do |match|
-        score = [[3, 0], [0, 3], [1, 1]].sample
-        TeamMatch.where(match: match).first.update(score: score[0])
-        TeamMatch.where(match: match).last.update(score: score[1])
-      end
       4.times do
         FactoryBot.create(:match, :with_teams, phase: "playoff", rounds_left_playoff: 3)
       end
