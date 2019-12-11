@@ -1,0 +1,26 @@
+<table>
+    <tr>
+      <th>Match ID</th>
+      <th>Group</th>
+      <th>Team1</th>
+      <th>Team2</th>
+      <th>Team1 score</th>
+      <th>Team2 score</th>
+
+    </tr>
+      <% for match in matches_group do %>
+        <% if match.team_matches.first %>
+
+          <tr>
+            <td><%= match.id %></td>
+            <td><%= match.teams.first.group_name %></td>
+            <td><%= match.team_matches.first.team.name %></td>
+            <td><%= match.team_matches.last.team.name  %> </td>
+            <td><%= match.team_matches.first.score %></td>
+            <td><%= match.team_matches.last.score  %> </td>
+          </tr>
+        <% end %>
+    <% end %>
+
+  </table>
+  <br>

@@ -35,6 +35,8 @@ class Match::CurrentPhaseService
       "pairs_for_playoff_final"
     elsif final_scores_ready?
       "scores_for_playoff_final"
+    elsif results_ready?
+      "tournament_complete_results"
     end
   end
 
@@ -82,5 +84,9 @@ class Match::CurrentPhaseService
 
   def final_scores_ready?
     @matches_playoff_final.present? && @matches_playoff_final.first.team_matches.first.score.nil?
+  end
+
+  def results_ready?
+    @matches_playoff_final.present? && @matches_playoff_final.first.team_matches.first.score.present?
   end
 end
