@@ -8,7 +8,7 @@ ruby "2.5.5"
 gem "bootsnap", ">= 1.4.2", require: false
 gem "faker", "~> 2.7"
 gem "jbuilder", "~> 2.7"
-gem "puma", "~> 4.1"
+gem "puma", "~> 4.3"
 gem "rails", "~> 6.0.1"
 gem "rspec", "~> 3.9"
 gem "rubocop", "~> 0.76.0"
